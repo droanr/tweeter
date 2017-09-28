@@ -58,7 +58,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="T5Y-Or-6lO"/>
                     </view>
-                    <navigationItem key="navigationItem" id="zQa-c5-Dhl"/>
+                    <navigationItem key="navigationItem" id="zQa-c5-Dhl">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="OIX-hC-70D">
+                            <connections>
+                                <action selector="onLogoutButton:" destination="6FJ-DW-OWA" id="h8A-Yp-I6J"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ldg-ka-3Gr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

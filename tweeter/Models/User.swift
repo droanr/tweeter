@@ -15,6 +15,7 @@ class User: NSObject {
     var profileUrl: URL?
     var tagLine: String?
     var dictionary: NSDictionary?
+    static let userDidLogoutNotification = "UserDidLogout"
     
     init(data: NSDictionary) {
         self.name = data["name"] as? String
