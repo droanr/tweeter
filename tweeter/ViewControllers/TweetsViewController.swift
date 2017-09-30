@@ -18,13 +18,19 @@ class TweetsViewController: UIViewController {
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+        fetchTweetsAndUpdateTable()
+    }
+    
+    func fetchTweetsAndUpdateTable() {
         TwitterClient.sharedInstance?.homeTimeline(success: {(tweets: [Tweet]) -> () in
             self.tweets = tweets
             self.tableView.reloadData()
         }, failure: { (error: Error) in
             print("Error: \(error.localizedDescription)")
         })
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,6 +38,10 @@ class TweetsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        fetchTweetsAndUpdateTable()
+        refreshControl.endRefreshing()
+    }
     @IBAction func onLogoutButton(_ sender: Any) {
         TwitterClient.sharedInstance?.logout()
     }
