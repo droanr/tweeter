@@ -26,6 +26,17 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func createTweet(text: String, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        post("/1.1/statuses/update.json", parameters: ["status": text], progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            let tweet = Tweet(data: data)
+            success(tweet)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            print("Error: \(error.localizedDescription)")
+            failure(error)
+        })
+    }
+    
     func currentAccount(success: @escaping (User)->(), failure: @escaping (Error)->()) {
         get("/1.1/account/verify_credentials.json", parameters: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
             //print ("Account: \(response)")

@@ -42,20 +42,26 @@ class TweetsViewController: UIViewController {
         fetchTweetsAndUpdateTable()
         refreshControl.endRefreshing()
     }
+    
     @IBAction func onLogoutButton(_ sender: Any) {
         TwitterClient.sharedInstance?.logout()
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "composeTweet" {
+            let navigationController = segue.destination as! UINavigationController
+            let composeTweetViewController = navigationController.topViewController as! ComposeTweetViewController
+            composeTweetViewController.delegate = self
+        }
     }
-    */
 
+}
+
+extension TweetsViewController: ComposeTweetViewControllerDelegate {
+    func composeTweetViewController(tweet: Tweet) {
+        self.tweets.insert(tweet, at: 0)
+        self.tableView.reloadData()
+    }
 }
 
 extension TweetsViewController: UITableViewDelegate, UITableViewDataSource {

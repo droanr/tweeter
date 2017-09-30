@@ -65,8 +65,9 @@ class Tweet: NSObject {
             return "\(components.minute!)m"
         } else if (components.second! >= 1) {
             return "\(components.second!)s"
+        } else {
+            return "Just Now"
         }
-        return ""
     }
     
 }
