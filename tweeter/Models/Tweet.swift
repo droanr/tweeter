@@ -23,7 +23,7 @@ class Tweet: NSObject {
         self.id = data["id"] as? Int
         self.text = data["text"] as? String
         self.retweetCount = (data["retweet_count"] as? Int) ?? 0
-        self.favoritesCount = (data["favourites_count"] as? Int) ?? 0
+        self.favoritesCount = (data["favorite_count"] as? Int) ?? 0
         self.user = User(data: (data["user"] as? NSDictionary)!)
         let timestampString = data["created_at"] as? String
         let formatter = DateFormatter()

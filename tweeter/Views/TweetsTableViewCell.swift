@@ -17,7 +17,6 @@ class TweetsTableViewCell: UITableViewCell {
     @IBOutlet weak var replyImage: UIImageView!
     @IBOutlet weak var retweetImage: UIImageView!
     @IBOutlet weak var retweetCount: UILabel!
-    @IBOutlet weak var replyCount: UILabel!
     @IBOutlet weak var likeImage: UIImageView!
     @IBOutlet weak var likeCount: UILabel!
     var tweet: Tweet! {
