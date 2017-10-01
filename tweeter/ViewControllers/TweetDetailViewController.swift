@@ -27,6 +27,8 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var replyImage: UIImageView!
     @IBOutlet weak var retweetImage: UIImageView!
     @IBOutlet weak var likeImage: UIImageView!
+    @IBOutlet weak var mediaImageHeight: NSLayoutConstraint!
+    @IBOutlet weak var mediaImage: UIImageView!
     var tweet: Tweet!
     var index: Int!
     var delegate: TweetDetailsViewControllerDelegate!
@@ -63,7 +65,15 @@ class TweetDetailViewController: UIViewController {
         tweetLabel.text = tweet.text
         retweetCount.text = "\(tweet.retweetCount)"
         likeCount.text = "\(tweet.favoritesCount)"
-        
+        if let mediaUrl = tweet.mediaUrl {
+            mediaImage.setImageWith(mediaUrl)
+            mediaImage.layer.masksToBounds = true
+            mediaImage.layer.cornerRadius = CGFloat(8)
+            mediaImageHeight.constant = 225.0
+        } else {
+            mediaImage.image = nil
+            mediaImageHeight.constant = 0.0
+        }
         if tweet.favorited == true {
             likeImage.image = UIImage.init(named: "like_selected")
         }

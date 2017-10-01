@@ -2,7 +2,7 @@
 
 **Tweeter** is a basic twitter app to read and compose tweets from the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **2** hours spent in total
+Time spent: **20** hours spent in total
 
 ## User Stories
 
@@ -28,7 +28,7 @@ The following **optional** features are implemented:
 The following **additional** features are implemented:
 
 - [x] Tweet timestamp formatted to relative time similar to the twitter app
-- [x] User can see a media image in the tweet if any ont he tweets view
+- [x] User can see a media image in the tweet if any on the tweets view and tweet detail view.
 - [x] Placeholder in ComposeTextView appears/disappears with the cursor at the beginning how twitter app does it.
 - [x] Details view shows in reply to screenname and retweeted by screename in details view like the twitter app
 - [x] Links are clickable in tweets view
@@ -39,7 +39,7 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
+1. How to centralize tweet/untweet etc logic between tweets table view cell and tweet details view controller.
 2.
 
 ## Video Walkthrough
@@ -56,7 +56,7 @@ Describe any challenges encountered while building the app.
 
 ## License
 
-Copyright [yyyy] [name of copyright owner]
+Copyright [2017] [Droan Rishi]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

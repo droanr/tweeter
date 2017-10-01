@@ -40,14 +40,12 @@ class TweetsTableViewCell: UITableViewCell {
             tweetLabel.text = tweet.text
             tweetLabel.translatesAutoresizingMaskIntoConstraints = true
             if let mediaUrl = tweet.mediaUrl {
-                mediaImage.isHidden = false
                 mediaImage.setImageWith(mediaUrl)
                 mediaImage.layer.masksToBounds = true
                 mediaImage.layer.cornerRadius = CGFloat(8)
                 mediaImageHeight.constant = 225.0
             } else {
                 mediaImage.image = nil
-                mediaImage.isHidden = true
                 mediaImageHeight.constant = 0.0
             }
             var newFrame = tweetLabel.frame
