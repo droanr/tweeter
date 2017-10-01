@@ -59,7 +59,7 @@ class TweetsTableViewCell: UITableViewCell {
             likeCount.text = "\(tweet.favoritesCount)"
             if tweet.retweeted == true {
                 retweetImage.image = UIImage.init(named: "retweet_selected")
-                retweetCount.textColor = UIColor.green
+                retweetCount.textColor = UIColor(red: 0.5686, green: 0.8627, blue: 0.3529, alpha: 1.0) /* #91dc5a */
             } else {
                 retweetImage.image = UIImage.init(named: "retweet")
                 retweetCount.textColor = UIColor.black
@@ -148,7 +148,7 @@ class TweetsTableViewCell: UITableViewCell {
                 let count = Int((self.retweetCount.text)!)! + 1
                 self.retweetCount.text = "\(count)"
                 self.tweet.retweetCount = count
-                self.retweetCount.textColor = UIColor.green
+                self.retweetCount.textColor = UIColor(red: 0.5686, green: 0.8627, blue: 0.3529, alpha: 1.0)
             }, failure: { (error: Error) in
                 print("Error: \(error.localizedDescription)")
             })
