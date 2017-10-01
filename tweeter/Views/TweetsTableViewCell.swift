@@ -82,6 +82,7 @@ class TweetsTableViewCell: UITableViewCell {
                 self.tweet.favorited = false
                 self.transitionChangeImageView(imageView: self.likeImage, imageName: "like")
                 let count = Int((self.likeCount.text)!)! - 1
+                self.tweet.favoritesCount = count
                 self.likeCount.text = "\(count)"
                 self.likeCount.textColor = UIColor.black
             }, failure: { (error: Error) in
@@ -93,6 +94,7 @@ class TweetsTableViewCell: UITableViewCell {
                 self.transitionChangeImageView(imageView: self.likeImage, imageName: "like_selected")
                 let count = Int((self.likeCount.text)!)! + 1
                 self.likeCount.text = "\(count)"
+                self.tweet.favoritesCount = count
                 self.likeCount.textColor = UIColor.red
             }, failure: { (error: Error) in
                 print("Error: \(error.localizedDescription)")
@@ -115,6 +117,7 @@ class TweetsTableViewCell: UITableViewCell {
                 self.transitionChangeImageView(imageView: self.retweetImage, imageName: "retweet")
                 let count = Int((self.retweetCount.text)!)! - 1
                 self.retweetCount.text = "\(count)"
+                self.tweet.retweetCount = count
                 self.retweetCount.textColor = UIColor.black
             }, failure: { (error: Error) in
                 print("Error: \(error.localizedDescription)")
@@ -125,6 +128,7 @@ class TweetsTableViewCell: UITableViewCell {
                 self.transitionChangeImageView(imageView: self.retweetImage, imageName: "retweet_selected")
                 let count = Int((self.retweetCount.text)!)! + 1
                 self.retweetCount.text = "\(count)"
+                self.tweet.retweetCount = count
                 self.retweetCount.textColor = UIColor.green
             }, failure: { (error: Error) in
                 print("Error: \(error.localizedDescription)")
