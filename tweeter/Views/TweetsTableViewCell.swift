@@ -17,7 +17,7 @@ class TweetsTableViewCell: UITableViewCell {
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userHandle: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var tweetLabel: UILabel!
+    @IBOutlet weak var tweetLabel: UITextView!
     @IBOutlet weak var replyImage: UIImageView!
     @IBOutlet weak var retweetImage: UIImageView!
     @IBOutlet weak var retweetCount: UILabel!
@@ -36,6 +36,10 @@ class TweetsTableViewCell: UITableViewCell {
             userHandle.text = "@" + (tweet.user?.screenname)!
             timeLabel.text = tweet.relativeTimestamp
             tweetLabel.text = tweet.text
+            tweetLabel.translatesAutoresizingMaskIntoConstraints = true
+            tweetLabel.sizeToFit()
+            tweetLabel.isScrollEnabled = false
+            tweetLabel.isEditable = false
             retweetCount.text = "\(tweet.retweetCount)"
             likeCount.text = "\(tweet.favoritesCount)"
             if tweet.retweeted == true {
