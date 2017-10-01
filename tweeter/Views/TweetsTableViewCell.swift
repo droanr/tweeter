@@ -37,7 +37,12 @@ class TweetsTableViewCell: UITableViewCell {
             timeLabel.text = tweet.relativeTimestamp
             tweetLabel.text = tweet.text
             tweetLabel.translatesAutoresizingMaskIntoConstraints = true
-            tweetLabel.sizeToFit()
+            //tweetLabel.sizeToFit()
+            var newFrame = tweetLabel.frame
+            let fixedWidth = tweetLabel.frame.size.width
+            let newSize = tweetLabel.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+            newFrame.size = CGSize(width: fixedWidth, height: newSize.height)
+            tweetLabel.frame = newFrame;
             tweetLabel.isScrollEnabled = false
             tweetLabel.isEditable = false
             retweetCount.text = "\(tweet.retweetCount)"
