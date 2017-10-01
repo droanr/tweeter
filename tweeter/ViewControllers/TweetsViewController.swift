@@ -12,6 +12,7 @@ class TweetsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var tweets: [Tweet]!
+    var isMoreDataLoading = false
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -25,7 +26,7 @@ class TweetsViewController: UIViewController {
     }
     
     func fetchTweetsAndUpdateTable() {
-        TwitterClient.sharedInstance?.homeTimeline(success: {(tweets: [Tweet]) -> () in
+        TwitterClient.sharedInstance?.homeTimeline(maxId: nil, success: {(tweets: [Tweet]) -> () in
             self.tweets = tweets
             self.reloadWithAnimation()
         }, failure: { (error: Error) in
@@ -71,6 +72,29 @@ extension TweetsViewController: ComposeTweetViewControllerDelegate {
     func composeTweetViewController(tweet: Tweet) {
         self.tweets.insert(tweet, at: 0)
         reloadWithAnimation()
+    }
+}
+
+extension TweetsViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = self.tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - self.tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && self.tableView.isDragging) {
+                isMoreDataLoading = true
+                let maxId = self.tweets[self.tweets.count-1].id
+                TwitterClient.sharedInstance?.homeTimeline(maxId: maxId, success: { (tweets: [Tweet]) in
+                    self.tweets = self.tweets + tweets
+                    self.tableView.reloadData()
+                    self.isMoreDataLoading = false
+                }, failure: { (error:Error) in
+                    print("Error: \(error.localizedDescription)")
+                })
+            }
+        }
     }
 }
 
