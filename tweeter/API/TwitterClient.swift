@@ -37,6 +37,61 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func replyToTweet(text: String, inReplyToId: Int?, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        post("/1.1/statuses/update.json", parameters: ["status": text, "in_reply_to_id": inReplyToId], progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            let tweet = Tweet(data: data)
+            success(tweet)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            print("Error: \(error.localizedDescription)")
+            failure(error)
+        })
+    }
+    
+    func retweet(id: Int, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        post("/1.1/statuses/unretweet/\(id).json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            let tweet = Tweet(data: data)
+            success(tweet)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            print("Error: \(error.localizedDescription)")
+            failure(error)
+        })
+    }
+    
+    func unretweet(id: Int, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        post("/1.1/statuses/retweet/\(id).json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            let tweet = Tweet(data: data)
+            success(tweet)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            print("Error: \(error.localizedDescription)")
+            failure(error)
+        })
+    }
+    
+    func like(id: Int, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        post("/1.1/favorites/create.json", parameters: ["id": id], progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            let tweet = Tweet(data: data)
+            success(tweet)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            print("Error: \(error.localizedDescription)")
+            failure(error)
+        })
+    }
+    
+    func unlike(id: Int, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        post("/1.1/favorites/destroy.json", parameters: ["id": id], progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            let tweet = Tweet(data: data)
+            success(tweet)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            print("Error: \(error.localizedDescription)")
+            failure(error)
+        })
+    }
+    
     func currentAccount(success: @escaping (User)->(), failure: @escaping (Error)->()) {
         get("/1.1/account/verify_credentials.json", parameters: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
             //print ("Account: \(response)")

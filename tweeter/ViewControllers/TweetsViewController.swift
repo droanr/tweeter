@@ -1,4 +1,4 @@
-//
+	//
 //  TweetsViewController.swift
 //  tweeter
 //
@@ -27,10 +27,16 @@ class TweetsViewController: UIViewController {
     func fetchTweetsAndUpdateTable() {
         TwitterClient.sharedInstance?.homeTimeline(success: {(tweets: [Tweet]) -> () in
             self.tweets = tweets
-            self.tableView.reloadData()
+            self.reloadWithAnimation()
         }, failure: { (error: Error) in
             print("Error: \(error.localizedDescription)")
         })
+    }
+    
+    func reloadWithAnimation() {
+        let range = NSMakeRange(0, self.tableView.numberOfSections)
+        let sections = NSIndexSet(indexesIn: range)
+        self.tableView.reloadSections(sections as IndexSet, with: .automatic)
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,6 +58,10 @@ class TweetsViewController: UIViewController {
             let navigationController = segue.destination as! UINavigationController
             let composeTweetViewController = navigationController.topViewController as! ComposeTweetViewController
             composeTweetViewController.delegate = self
+        } else if segue.identifier == "tweetDetails" {
+            let cell = sender as! TweetsTableViewCell
+            let detailsController = segue.destination as! TweetDetailViewController
+            detailsController.tweet = cell.tweet
         }
     }
 
@@ -60,7 +70,7 @@ class TweetsViewController: UIViewController {
 extension TweetsViewController: ComposeTweetViewControllerDelegate {
     func composeTweetViewController(tweet: Tweet) {
         self.tweets.insert(tweet, at: 0)
-        self.tableView.reloadData()
+        reloadWithAnimation()
     }
 }
 

@@ -13,10 +13,15 @@ class Tweet: NSObject {
     var text: String?
     var timestamp: Date?
     var relativeTimestamp: String?
+    var shortStyleTimestamp: String?
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
     var user: User?
     var id: Int?
+    var inReplyToScreename: String?
+    var retweetedStatus: Tweet?
+    var favorited: Bool!
+    var retweeted: Bool!
     
     init(data: NSDictionary) {
         print(data)
@@ -31,8 +36,20 @@ class Tweet: NSObject {
         if let timestampString = timestampString {
             self.timestamp = formatter.date(from: timestampString)
             self.relativeTimestamp = Tweet.timeAgoSinceDate(date: self.timestamp! as NSDate)
+            self.shortStyleTimestamp = Tweet.shortStyleTime(date: self.timestamp!)
         }
+        self.inReplyToScreename = data["in_reply_to_screen_name"] as? String
+        self.retweetedStatus = data["retweeted_status"] as? Tweet
+        self.favorited = data["favorited"] as! Bool
+        self.retweeted = data["retweeted"] as! Bool
+    }
+    
+    class func shortStyleTime(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
         
+        return formatter.string(from:date)
     }
     
     class func tweetsFromArray(data: [NSDictionary]) -> [Tweet] {

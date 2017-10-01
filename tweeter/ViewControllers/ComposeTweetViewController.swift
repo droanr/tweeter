@@ -18,8 +18,10 @@ class ComposeTweetViewController: UIViewController {
     @IBOutlet weak var userHandle: UILabel!
     @IBOutlet weak var composeTextView: UITextView!
     @IBOutlet weak var characterCount: UILabel!
-    weak var delegate: ComposeTweetViewControllerDelegate!
+    weak var delegate: ComposeTweetViewControllerDelegate?
     var user: User!
+    var inReplyToScreename: String?
+    var inReplyToId: Int?
     var placeholder = "What's happening?"
     
     override func viewDidLoad() {
@@ -39,9 +41,14 @@ class ComposeTweetViewController: UIViewController {
     func setUpComposeTextView() {
         composeTextView.delegate = self
         composeTextView.text = placeholder
-        composeTextView.textColor = UIColor.lightGray
         composeTextView.becomeFirstResponder()
-        composeTextView.selectedTextRange = composeTextView.textRange(from: composeTextView.beginningOfDocument, to: composeTextView.beginningOfDocument)
+        if let inReplyToScreename = inReplyToScreename {
+            composeTextView.text = "@" + inReplyToScreename
+            characterCount.text = composeTextView.text.characters.count.description
+        } else {
+            composeTextView.textColor = UIColor.lightGray
+            composeTextView.selectedTextRange = composeTextView.textRange(from: composeTextView.beginningOfDocument, to: composeTextView.beginningOfDocument)
+        }
     }
     
     @IBAction func onCancel(_ sender: Any) {
@@ -50,12 +57,20 @@ class ComposeTweetViewController: UIViewController {
     
     @IBAction func onTweet(_ sender: Any) {
         if composeTextView.text.characters.count > 0 && composeTextView.textColor != UIColor.lightGray {
-            TwitterClient.sharedInstance?.createTweet(text: composeTextView.text, success: { (tweet: Tweet) in
-                self.delegate.composeTweetViewController!(tweet: tweet)
-                self.dismiss(animated: true, completion: nil)
-            }, failure: { (error: Error) in
-                print("Error: \(error.localizedDescription)")
-            })
+            if let inReplyToId = inReplyToId {
+                TwitterClient.sharedInstance?.replyToTweet(text: composeTextView.text, inReplyToId: inReplyToId, success: { (tweet: Tweet) in
+                    self.dismiss(animated: true, completion: nil)
+                }, failure: { (error: Error) in
+                    print("Error: \(error.localizedDescription)")
+                })
+            } else {
+                TwitterClient.sharedInstance?.createTweet(text: composeTextView.text, success: { (tweet: Tweet) in
+                    self.delegate?.composeTweetViewController!(tweet: tweet)
+                    self.dismiss(animated: true, completion: nil)
+                }, failure: { (error: Error) in
+                    print("Error: \(error.localizedDescription)")
+                })
+            }
         }
     }
     
