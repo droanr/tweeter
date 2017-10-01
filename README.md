@@ -33,6 +33,7 @@ The following **additional** features are implemented:
 - [x] Use filled in Assets for liked, retweeted actions like the twitter app
 - [x] Retweet/Like/Un-retweet/Un-like/ReplyTo from tweets view with count update and color change like the twitter App.
 - [x] All images are rounded similar to the twitter App.
+- [x] Tweets in tweets view are updated when retweeted/liked from details view.
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 

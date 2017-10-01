@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TweetDetailsViewControllerDelegate {
+    func tweetWithUpdatedData(tweet: Tweet, index: Int)
+}
+
 class TweetDetailViewController: UIViewController {
     
     @IBOutlet weak var retweetedIcon: UIImageView!
@@ -23,7 +27,9 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var replyImage: UIImageView!
     @IBOutlet weak var retweetImage: UIImageView!
     @IBOutlet weak var likeImage: UIImageView!
-    var tweet: Tweet! 
+    var tweet: Tweet!
+    var index: Int!
+    var delegate: TweetDetailsViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +38,18 @@ class TweetDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @objc func back(sender: UIBarButtonItem) {
+        // Perform your custom actions
+        // ...
+        // Go back to the previous ViewController
+        self.delegate?.tweetWithUpdatedData(tweet: self.tweet, index: self.index)
+        _ = navigationController?.popViewController(animated: true)
+    }
+    
     func setUpUI() {
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.back(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
         userImage.setImageWith((tweet.user?.profileUrl)!)
         userImage.layer.borderWidth = 1
         userImage.layer.masksToBounds = false
@@ -93,6 +110,7 @@ class TweetDetailViewController: UIViewController {
                 self.tweet.favorited = false
                 self.likeImage.image = UIImage.init(named: "like")
                 let count = Int((self.likeCount.text)!)! - 1
+                self.tweet.favoritesCount = count
                 self.likeCount.text = "\(count)"
             }, failure: { (error: Error) in
                 print("Error: \(error.localizedDescription)")
@@ -102,6 +120,7 @@ class TweetDetailViewController: UIViewController {
                 self.tweet.favorited = true
                 self.likeImage.image = UIImage.init(named: "like_selected")
                 let count = Int((self.likeCount.text)!)! + 1
+                self.tweet.favoritesCount = count
                 self.likeCount.text = "\(count)"
             }, failure: { (error: Error) in
                 print("Error: \(error.localizedDescription)")
@@ -119,6 +138,7 @@ class TweetDetailViewController: UIViewController {
                 self.tweet.retweeted = false
                 self.retweetImage.image = UIImage.init(named: "retweet")
                 let count = Int((self.retweetCount.text)!)! - 1
+                self.tweet.retweetCount = count
                 self.retweetCount.text = "\(count)"
             }, failure: { (error: Error) in
                 print("Error: \(error.localizedDescription)")
@@ -129,6 +149,7 @@ class TweetDetailViewController: UIViewController {
                 self.retweetImage.image = UIImage.init(named: "retweet_selected")
                 let count = Int((self.retweetCount.text)!)! + 1
                 self.retweetCount.text = "\(count)"
+                self.tweet.retweetCount = count
             }, failure: { (error: Error) in
                 print("Error: \(error.localizedDescription)")
             })

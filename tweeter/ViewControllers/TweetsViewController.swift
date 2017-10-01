@@ -71,6 +71,9 @@ class TweetsViewController: UIViewController {
             let cell = sender as! TweetsTableViewCell
             let detailsController = segue.destination as! TweetDetailViewController
             detailsController.tweet = cell.tweet
+            let indexPath = tableView.indexPath(for: cell)
+            detailsController.index = indexPath?.row
+            detailsController.delegate = self
         }
     }
 
@@ -111,6 +114,13 @@ extension TweetsViewController: TweetsTableViewCellDelegate {
         self.inReplyToScreename = inReplyToScreename
         self.inReplyToId = inReplyToId
         performSegue(withIdentifier: "composeTweet", sender: self)
+    }
+}
+
+extension TweetsViewController: TweetDetailsViewControllerDelegate {        
+    func tweetWithUpdatedData(tweet: Tweet, index: Int) {
+        self.tweets[index] = tweet
+        self.tableView.reloadData()
     }
 }
 
