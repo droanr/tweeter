@@ -27,6 +27,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
+- [x] Tweet timestamp formatted to relative time similar to the twitter app
 - [x] Placeholder in ComposeTextView appears/disappears with the cursor at the beginning how twitter app does it.
 - [x] Details view shows in reply to screenname and retweeted by screename in details view like the twitter app
 - [x] Use filled in Assets for liked, retweeted actions like the twitter app
