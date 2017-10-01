@@ -13,6 +13,8 @@ class TweetsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var tweets: [Tweet]!
     var isMoreDataLoading = false
+    var inReplyToScreename = ""
+    var inReplyToId = -1
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -59,6 +61,12 @@ class TweetsViewController: UIViewController {
             let navigationController = segue.destination as! UINavigationController
             let composeTweetViewController = navigationController.topViewController as! ComposeTweetViewController
             composeTweetViewController.delegate = self
+            if self.inReplyToScreename != "" {
+                composeTweetViewController.inReplyToScreename = inReplyToScreename
+            }
+            if self.inReplyToId != -1 {
+                composeTweetViewController.inReplyToId = inReplyToId
+            }
         } else if segue.identifier == "tweetDetails" {
             let cell = sender as! TweetsTableViewCell
             let detailsController = segue.destination as! TweetDetailViewController
@@ -98,6 +106,14 @@ extension TweetsViewController: UIScrollViewDelegate {
     }
 }
 
+extension TweetsViewController: TweetsTableViewCellDelegate {
+    func callSegueFromCell(inReplyToScreename: String, inReplyToId: Int) {
+        self.inReplyToScreename = inReplyToScreename
+        self.inReplyToId = inReplyToId
+        performSegue(withIdentifier: "composeTweet", sender: self)
+    }
+}
+
 extension TweetsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tweets != nil {
@@ -110,6 +126,7 @@ extension TweetsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath) as! TweetsTableViewCell
         cell.tweet = tweets[indexPath.row]
+        cell.delegate = self
         return cell
     }
     

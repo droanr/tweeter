@@ -59,6 +59,7 @@ class ComposeTweetViewController: UIViewController {
         if composeTextView.text.characters.count > 0 && composeTextView.textColor != UIColor.lightGray {
             if let inReplyToId = inReplyToId {
                 TwitterClient.sharedInstance?.replyToTweet(text: composeTextView.text, inReplyToId: inReplyToId, success: { (tweet: Tweet) in
+                    self.delegate?.composeTweetViewController!(tweet: tweet)
                     self.dismiss(animated: true, completion: nil)
                 }, failure: { (error: Error) in
                     print("Error: \(error.localizedDescription)")

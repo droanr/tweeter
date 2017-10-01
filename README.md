@@ -30,6 +30,7 @@ The following **additional** features are implemented:
 - [x] Placeholder in ComposeTextView appears/disappears with the cursor at the beginning how twitter app does it.
 - [x] Details view shows in reply to screenname and retweeted by screename in details view like the twitter app
 - [x] Use filled in Assets for liked, retweeted actions like the twitter app
+- [x] Retweet/Like/Un-retweet/Un-like/ReplyTo from tweets view with count update and color change like the twitter App.
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 

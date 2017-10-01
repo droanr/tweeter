@@ -113,7 +113,7 @@ class TweetDetailViewController: UIViewController {
             TwitterClient.sharedInstance?.unretweet(id: tweet.id!, success: { (tweet: Tweet) in
                 self.tweet.retweeted = false
                 self.retweetImage.image = UIImage.init(named: "retweet")
-                let count = Int((self.retweetCount.text)!)! + 1
+                let count = Int((self.retweetCount.text)!)! - 1
                 self.retweetCount.text = "\(count)"
             }, failure: { (error: Error) in
                 print("Error: \(error.localizedDescription)")

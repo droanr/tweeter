@@ -181,7 +181,7 @@
                                             <outlet property="userHandle" destination="Yyl-cJ-Xev" id="6zF-PA-BOC"/>
                                             <outlet property="userImage" destination="fri-gG-0dT" id="mnr-UY-aTp"/>
                                             <outlet property="userName" destination="x4A-Uz-74H" id="SPU-M0-CPZ"/>
-                                            <segue destination="VOt-gR-kbS" kind="push" identifier="tweetDetails" id="0cy-8Q-uGq"/>
+                                            <segue destination="VOt-gR-kbS" kind="push" identifier="tweetDetails" id="amZ-LR-eEf"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -559,7 +559,7 @@
         <image name="retweet" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0cy-8Q-uGq"/>
-        <segue reference="e0m-Bk-o9M"/>
+        <segue reference="amZ-LR-eEf"/>
+        <segue reference="xpi-Tx-Js1"/>
     </inferredMetricsTieBreakers>
 </document>

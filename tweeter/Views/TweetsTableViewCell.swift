@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc protocol TweetsTableViewCellDelegate {
+    @objc optional func callSegueFromCell(inReplyToScreename: String, inReplyToId: Int)
+}
+
 class TweetsTableViewCell: UITableViewCell {
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
@@ -19,6 +23,7 @@ class TweetsTableViewCell: UITableViewCell {
     @IBOutlet weak var retweetCount: UILabel!
     @IBOutlet weak var likeImage: UIImageView!
     @IBOutlet weak var likeCount: UILabel!
+    weak var delegate: TweetsTableViewCellDelegate!
     var tweet: Tweet! {
         didSet {
             userImage.setImageWith((tweet.user?.profileUrl)!)
@@ -28,6 +33,89 @@ class TweetsTableViewCell: UITableViewCell {
             tweetLabel.text = tweet.text
             retweetCount.text = "\(tweet.retweetCount)"
             likeCount.text = "\(tweet.favoritesCount)"
+            if tweet.retweeted == true {
+                retweetImage.image = UIImage.init(named: "retweet_selected")
+                retweetCount.textColor = UIColor.green
+            } else {
+                retweetImage.image = UIImage.init(named: "retweet")
+                retweetCount.textColor = UIColor.black
+            }
+            if tweet.favorited == true {
+                likeImage.image = UIImage.init(named: "like_selected")
+                likeCount.textColor = UIColor.red
+            } else {
+                likeImage.image = UIImage.init(named: "like")
+                likeCount.textColor = UIColor.black
+            }
+            setUpTouchRecognizers()
+        }
+    }
+    
+    func setUpTouchRecognizers() {
+        let replyToRecognizer = UITapGestureRecognizer(target: self, action: #selector(onReplyTo(tapGestureRecognizer:)))
+        replyImage.isUserInteractionEnabled = true
+        replyImage.addGestureRecognizer(replyToRecognizer)
+        
+        let likeRecognizer = UITapGestureRecognizer(target: self, action: #selector(onLike(tapGestureRecognizer:)))
+        likeImage.isUserInteractionEnabled = true
+        likeImage.addGestureRecognizer(likeRecognizer)
+        
+        let retweetRecognizer = UITapGestureRecognizer(target: self, action: #selector(onRetweet(tapGestureRecognizer:)))
+        retweetImage.isUserInteractionEnabled = true
+        retweetImage.addGestureRecognizer(retweetRecognizer)
+    }
+    
+    @objc func onReplyTo(tapGestureRecognizer: UITapGestureRecognizer) {
+        if let delegate = self.delegate {
+            delegate.callSegueFromCell!(inReplyToScreename: (tweet.user?.screenname)!, inReplyToId: tweet.id!)
+        }
+    }
+    
+    @objc func onLike(tapGestureRecognizer: UITapGestureRecognizer) {
+        if self.tweet.favorited == true {
+            TwitterClient.sharedInstance?.unlike(id: tweet.id!, success: { (tweet: Tweet) in
+                self.tweet.favorited = false
+                self.likeImage.image = UIImage.init(named: "like")
+                let count = Int((self.likeCount.text)!)! - 1
+                self.likeCount.text = "\(count)"
+                self.likeCount.textColor = UIColor.black
+            }, failure: { (error: Error) in
+                print("Error: \(error.localizedDescription)")
+            })
+        } else {
+            TwitterClient.sharedInstance?.like(id: tweet.id!, success: { (tweet: Tweet) in
+                self.tweet.favorited = true
+                self.likeImage.image = UIImage.init(named: "like_selected")
+                let count = Int((self.likeCount.text)!)! + 1
+                self.likeCount.text = "\(count)"
+                self.likeCount.textColor = UIColor.red
+            }, failure: { (error: Error) in
+                print("Error: \(error.localizedDescription)")
+            })
+        }
+    }
+    
+    @objc func onRetweet(tapGestureRecognizer: UITapGestureRecognizer) {
+        if self.tweet.retweeted == true {
+            TwitterClient.sharedInstance?.unretweet(id: tweet.id!, success: { (tweet: Tweet) in
+                self.tweet.retweeted = false
+                self.retweetImage.image = UIImage.init(named: "retweet")
+                let count = Int((self.retweetCount.text)!)! - 1
+                self.retweetCount.text = "\(count)"
+                self.retweetCount.textColor = UIColor.black
+            }, failure: { (error: Error) in
+                print("Error: \(error.localizedDescription)")
+            })
+        } else {
+            TwitterClient.sharedInstance?.retweet(id: tweet.id!, success: { (tweet: Tweet) in
+                self.tweet.retweeted = true
+                self.retweetImage.image = UIImage.init(named: "retweet_selected")
+                let count = Int((self.retweetCount.text)!)! + 1
+                self.retweetCount.text = "\(count)"
+                self.retweetCount.textColor = UIColor.green
+            }, failure: { (error: Error) in
+                print("Error: \(error.localizedDescription)")
+            })
         }
     }
     
