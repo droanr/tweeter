@@ -23,6 +23,8 @@ class TweetsTableViewCell: UITableViewCell {
     @IBOutlet weak var retweetCount: UILabel!
     @IBOutlet weak var likeImage: UIImageView!
     @IBOutlet weak var likeCount: UILabel!
+    @IBOutlet weak var mediaImage: UIImageView!
+    @IBOutlet weak var mediaImageHeight: NSLayoutConstraint!
     weak var delegate: TweetsTableViewCellDelegate!
     var tweet: Tweet! {
         didSet {
@@ -37,7 +39,17 @@ class TweetsTableViewCell: UITableViewCell {
             timeLabel.text = tweet.relativeTimestamp
             tweetLabel.text = tweet.text
             tweetLabel.translatesAutoresizingMaskIntoConstraints = true
-            //tweetLabel.sizeToFit()
+            if let mediaUrl = tweet.mediaUrl {
+                mediaImage.isHidden = false
+                mediaImage.setImageWith(mediaUrl)
+                mediaImage.layer.masksToBounds = true
+                mediaImage.layer.cornerRadius = CGFloat(8)
+                mediaImageHeight.constant = 225.0
+            } else {
+                mediaImage.image = nil
+                mediaImage.isHidden = true
+                mediaImageHeight.constant = 0.0
+            }
             var newFrame = tweetLabel.frame
             let fixedWidth = tweetLabel.frame.size.width
             let newSize = tweetLabel.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))

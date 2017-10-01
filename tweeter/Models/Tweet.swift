@@ -18,6 +18,7 @@ class Tweet: NSObject {
     var favoritesCount: Int = 0
     var user: User?
     var id: Int?
+    var mediaUrl: URL?
     var inReplyToScreename: String?
     var retweetedStatus: Tweet?
     var favorited: Bool!
@@ -31,6 +32,14 @@ class Tweet: NSObject {
         self.favoritesCount = (data["favorite_count"] as? Int) ?? 0
         self.user = User(data: (data["user"] as? NSDictionary)!)
         let timestampString = data["created_at"] as? String
+        let entities = data["entities"] as? NSDictionary
+        if let entities = entities {
+            let media = entities["media"] as? [NSDictionary]
+            if let media = media {
+                let urlString = media[0]["media_url_https"] as? String
+                self.mediaUrl = URL(string: urlString!)
+            }
+        }
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
         if let timestampString = timestampString {
@@ -38,6 +47,7 @@ class Tweet: NSObject {
             self.relativeTimestamp = Tweet.timeAgoSinceDate(date: self.timestamp! as NSDate)
             self.shortStyleTimestamp = Tweet.shortStyleTime(date: self.timestamp!)
         }
+        
         self.inReplyToScreename = data["in_reply_to_screen_name"] as? String
         self.retweetedStatus = data["retweeted_status"] as? Tweet
         self.favorited = data["favorited"] as! Bool
