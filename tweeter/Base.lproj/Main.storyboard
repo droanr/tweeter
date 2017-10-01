@@ -106,20 +106,20 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y5A-f6-MCY">
-                                                    <rect key="frame" x="270" y="169.5" width="9" height="20"/>
+                                                    <rect key="frame" x="270" y="169.5" width="8" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="ddF-aB-ITh"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                                                     <color key="textColor" red="0.50904816389083862" green="0.53316295146942139" blue="0.54984462261199951" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lR0-IQ-IYg">
-                                                    <rect key="frame" x="175" y="169" width="9" height="20"/>
+                                                    <rect key="frame" x="175" y="169" width="8" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="05n-41-YdW"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                                                     <color key="textColor" red="0.50904816389083862" green="0.53316295146942139" blue="0.54984462261199951" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -560,6 +560,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="amZ-LR-eEf"/>
-        <segue reference="xpi-Tx-Js1"/>
+        <segue reference="e0m-Bk-o9M"/>
     </inferredMetricsTieBreakers>
 </document>

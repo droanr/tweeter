@@ -49,6 +49,7 @@ class TweetDetailViewController: UIViewController {
     func setUpUI() {
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.back(sender:)))
+        self.navigationItem.title = "Tweet"
         self.navigationItem.leftBarButtonItem = newBackButton
         userImage.setImageWith((tweet.user?.profileUrl)!)
         userImage.layer.borderWidth = 1
