@@ -33,6 +33,11 @@ class ComposeTweetViewController: UIViewController {
     
     func setUpUserDetails() {
         userImage.setImageWith(user.profileUrl!)
+        userImage.layer.borderWidth = 1
+        userImage.layer.masksToBounds = false
+        userImage.layer.borderColor = UIColor.black.cgColor
+        userImage.layer.cornerRadius = userImage.frame.height/2
+        userImage.clipsToBounds = true
         userName.text = user.name
         userHandle.text = "@" + user.screenname!
         characterCount.text = "0"

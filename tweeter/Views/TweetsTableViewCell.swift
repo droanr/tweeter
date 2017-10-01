@@ -27,6 +27,11 @@ class TweetsTableViewCell: UITableViewCell {
     var tweet: Tweet! {
         didSet {
             userImage.setImageWith((tweet.user?.profileUrl)!)
+            userImage.layer.borderWidth = 1
+            userImage.layer.masksToBounds = false
+            userImage.layer.borderColor = UIColor.black.cgColor
+            userImage.layer.cornerRadius = userImage.frame.height/2
+            userImage.clipsToBounds = true
             userName.text = tweet.user?.name
             userHandle.text = "@" + (tweet.user?.screenname)!
             timeLabel.text = tweet.relativeTimestamp
@@ -75,7 +80,7 @@ class TweetsTableViewCell: UITableViewCell {
         if self.tweet.favorited == true {
             TwitterClient.sharedInstance?.unlike(id: tweet.id!, success: { (tweet: Tweet) in
                 self.tweet.favorited = false
-                self.likeImage.image = UIImage.init(named: "like")
+                self.transitionChangeImageView(imageView: self.likeImage, imageName: "like")
                 let count = Int((self.likeCount.text)!)! - 1
                 self.likeCount.text = "\(count)"
                 self.likeCount.textColor = UIColor.black
@@ -85,7 +90,7 @@ class TweetsTableViewCell: UITableViewCell {
         } else {
             TwitterClient.sharedInstance?.like(id: tweet.id!, success: { (tweet: Tweet) in
                 self.tweet.favorited = true
-                self.likeImage.image = UIImage.init(named: "like_selected")
+                self.transitionChangeImageView(imageView: self.likeImage, imageName: "like_selected")
                 let count = Int((self.likeCount.text)!)! + 1
                 self.likeCount.text = "\(count)"
                 self.likeCount.textColor = UIColor.red
@@ -95,11 +100,19 @@ class TweetsTableViewCell: UITableViewCell {
         }
     }
     
+    func transitionChangeImageView(imageView: UIImageView, imageName: String) {
+        UIView.transition(with: imageView,
+                          duration:0.25,
+                          options: .transitionCrossDissolve,
+                          animations: { imageView.image = UIImage.init(named: imageName) },
+                          completion: nil)
+    }
+    
     @objc func onRetweet(tapGestureRecognizer: UITapGestureRecognizer) {
         if self.tweet.retweeted == true {
             TwitterClient.sharedInstance?.unretweet(id: tweet.id!, success: { (tweet: Tweet) in
                 self.tweet.retweeted = false
-                self.retweetImage.image = UIImage.init(named: "retweet")
+                self.transitionChangeImageView(imageView: self.retweetImage, imageName: "retweet")
                 let count = Int((self.retweetCount.text)!)! - 1
                 self.retweetCount.text = "\(count)"
                 self.retweetCount.textColor = UIColor.black
@@ -109,7 +122,7 @@ class TweetsTableViewCell: UITableViewCell {
         } else {
             TwitterClient.sharedInstance?.retweet(id: tweet.id!, success: { (tweet: Tweet) in
                 self.tweet.retweeted = true
-                self.retweetImage.image = UIImage.init(named: "retweet_selected")
+                self.transitionChangeImageView(imageView: self.retweetImage, imageName: "retweet_selected")
                 let count = Int((self.retweetCount.text)!)! + 1
                 self.retweetCount.text = "\(count)"
                 self.retweetCount.textColor = UIColor.green

@@ -34,6 +34,11 @@ class TweetDetailViewController: UIViewController {
     
     func setUpUI() {
         userImage.setImageWith((tweet.user?.profileUrl)!)
+        userImage.layer.borderWidth = 1
+        userImage.layer.masksToBounds = false
+        userImage.layer.borderColor = UIColor.black.cgColor
+        userImage.layer.cornerRadius = userImage.frame.height/2
+        userImage.clipsToBounds = true
         userName.text = tweet.user?.name
         userHandle.text = "@" + (tweet.user?.screenname)!
         tweetTime.text = tweet.shortStyleTimestamp
