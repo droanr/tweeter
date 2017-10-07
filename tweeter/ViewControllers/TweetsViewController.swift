@@ -15,6 +15,7 @@ class TweetsViewController: UIViewController {
     var isMoreDataLoading = false
     var inReplyToScreename = ""
     var inReplyToId = -1
+    var endpoint: String!
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -24,16 +25,31 @@ class TweetsViewController: UIViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
+        if self.endpoint == "home_timeline" {
+            self.title = "Home"
+        } else if self.endpoint == "mentions" {
+            self.title = "Mentions"
+        }
         fetchTweetsAndUpdateTable()
     }
     
     func fetchTweetsAndUpdateTable() {
-        TwitterClient.sharedInstance?.homeTimeline(maxId: nil, success: {(tweets: [Tweet]) -> () in
-            self.tweets = tweets
-            self.reloadWithAnimation()
-        }, failure: { (error: Error) in
-            print("Error: \(error.localizedDescription)")
-        })
+        if endpoint == "home_timeline" {
+            TwitterClient.sharedInstance?.homeTimeline(maxId: nil, success: {(tweets: [Tweet]) -> () in
+                self.tweets = tweets
+                self.reloadWithAnimation()
+            }, failure: { (error: Error) in
+                print("Error: \(error.localizedDescription)")
+            })
+        } else if endpoint == "mentions" {
+            TwitterClient.sharedInstance?.mentionsTimeline(maxId: nil, success: {(tweets: [Tweet]) -> () in
+                self.tweets = tweets
+                self.reloadWithAnimation()
+            }, failure: { (error: Error) in
+                print("Error: \(error.localizedDescription)")
+            })
+        }
+        
     }
     
     func reloadWithAnimation() {
@@ -105,13 +121,23 @@ extension TweetsViewController: UIScrollViewDelegate {
             if(scrollView.contentOffset.y > scrollOffsetThreshold && self.tableView.isDragging) {
                 isMoreDataLoading = true
                 let maxId = self.tweets[self.tweets.count-1].id
-                TwitterClient.sharedInstance?.homeTimeline(maxId: maxId, success: { (tweets: [Tweet]) in
-                    self.tweets = self.tweets + tweets
-                    self.tableView.reloadData()
-                    self.isMoreDataLoading = false
-                }, failure: { (error:Error) in
-                    print("Error: \(error.localizedDescription)")
-                })
+                if self.endpoint == "home_timeline" {
+                    TwitterClient.sharedInstance?.homeTimeline(maxId: maxId, success: { (tweets: [Tweet]) in
+                        self.tweets = self.tweets + tweets
+                        self.tableView.reloadData()
+                        self.isMoreDataLoading = false
+                    }, failure: { (error:Error) in
+                        print("Error: \(error.localizedDescription)")
+                    })
+                } else if self.endpoint == "mentions" {
+                    TwitterClient.sharedInstance?.mentionsTimeline(maxId: maxId, success: { (tweets: [Tweet]) in
+                        self.tweets = self.tweets + tweets
+                        self.tableView.reloadData()
+                        self.isMoreDataLoading = false
+                    }, failure: { (error:Error) in
+                        print("Error: \(error.localizedDescription)")
+                    })
+                }
             }
         }
     }

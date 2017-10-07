@@ -30,6 +30,21 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func mentionsTimeline(maxId: Int?, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        var parameters = [String:Int]()
+        if let maxId = maxId {
+            parameters = ["max_id": maxId]
+        }
+        get("/1.1/statuses/mentions_timeline.json", parameters: parameters, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let data = response as! [NSDictionary]
+            let tweets = Tweet.tweetsFromArray(data: data)
+            success(tweets)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            print("Error: \(error.localizedDescription)")
+            failure(error)
+        })
+    }
+    
     func createTweet(text: String, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
         post("/1.1/statuses/update.json", parameters: ["status": text], progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
             let data = response as! NSDictionary

@@ -53,21 +53,31 @@ class HamburgerMenuViewController: UIViewController {
         } else if sender.state == .changed {
             if velocity.x > 0 {
                 leftMargin.constant = originalLeftMargin + translation.x
-                //menuViewController.leftMargin.constant = view.frame.width - leftMargin.constant
             }
         } else if sender.state == .ended {
             UIView.animate(withDuration: 0.3, animations: {
                 if velocity.x > 0 { //opening
                     self.leftMargin.constant = self.view.frame.size.width * 2/3
-                    //self.menuViewController.leftMargin.constant = self.leftMargin.constant
+                    let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.onTapContentView(_:)))
+                    self.contentView.addGestureRecognizer(recognizer)
                 } else {  //closing
                     self.leftMargin.constant = 0
-                    //self.menuViewController.leftMargin.constant = self.view.frame.width - self.leftMargin.constant
                 }
                 self.view.layoutIfNeeded()
             })
             
         }
+    }
+    @IBAction func onTapContentView(_ sender: UITapGestureRecognizer) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.leftMargin.constant = 0
+            self.view.layoutIfNeeded()
+        })
+        contentView.removeGestureRecognizer(sender)
+        /*
+        for g in contentView.gestureRecognizers! {
+            g.isEnabled = false
+        }*/
     }
     
     override func didReceiveMemoryWarning() {

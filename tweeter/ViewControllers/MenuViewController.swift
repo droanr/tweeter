@@ -10,8 +10,9 @@ import UIKit
 
 class MenuViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    private var tweetsNavigationViewController: UIViewController!
-    var menuOptions = ["HomeTimeline", "Profile", "Mentions"]
+    private var tweetsHomeNavigationViewController: UINavigationController!
+    private var tweetsMentionsNavigationViewController: UINavigationController!
+    var menuOptions = ["Home Timeline", "Mentions", "Profile"]
     var viewControllers: [UIViewController] = []
     var hamburgerMenuViewController: HamburgerMenuViewController!
     override func viewDidLoad() {
@@ -21,10 +22,15 @@ class MenuViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 300
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        tweetsNavigationViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
-        //let tweetsViewController = nav.topViewController as! TweetsViewController
-        viewControllers.append(tweetsNavigationViewController)
-        hamburgerMenuViewController.contentViewController = tweetsNavigationViewController
+        tweetsHomeNavigationViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController") as! UINavigationController
+        let tweetsViewController = tweetsHomeNavigationViewController.topViewController as! TweetsViewController
+        tweetsViewController.endpoint = "home_timeline"
+        viewControllers.append(tweetsHomeNavigationViewController)
+        tweetsMentionsNavigationViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController") as! UINavigationController
+        let tweetsMentionsViewController = tweetsMentionsNavigationViewController.topViewController as! TweetsViewController
+        tweetsMentionsViewController.endpoint = "mentions"
+        viewControllers.append(tweetsMentionsNavigationViewController)
+        hamburgerMenuViewController.contentViewController = tweetsHomeNavigationViewController
         self.tableView.reloadData()
         // Do any additional setup after loading the view.
     }
