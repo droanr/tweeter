@@ -64,6 +64,7 @@ class TweetsViewController: UIViewController {
             if self.inReplyToScreename != "" {
                 composeTweetViewController.inReplyToScreename = inReplyToScreename
             }
+            
             if self.inReplyToId != -1 {
                 composeTweetViewController.inReplyToId = inReplyToId
             }
@@ -80,9 +81,16 @@ class TweetsViewController: UIViewController {
 }
 
 extension TweetsViewController: ComposeTweetViewControllerDelegate {
-    func composeTweetViewController(tweet: Tweet) {
+    func composeTweetViewControllerTweeted(tweet: Tweet) {
         self.tweets.insert(tweet, at: 0)
+        self.inReplyToScreename = ""
+        self.inReplyToId = -1
         reloadWithAnimation()
+    }
+    
+    func composeTweetViewControllerCancelled() {
+        self.inReplyToId = -1
+        self.inReplyToScreename = ""
     }
 }
 

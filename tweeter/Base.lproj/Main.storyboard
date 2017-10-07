@@ -21,23 +21,24 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuOptionsCell" id="BC4-cl-gaw" customClass="MenuOptionsTableViewCell" customModule="tweeter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuOptionsCell" rowHeight="153" id="BC4-cl-gaw" customClass="MenuOptionsTableViewCell" customModule="tweeter" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="153"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BC4-cl-gaw" id="bXH-0c-dvW">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="152.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home Timeline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3jF-xe-cpo">
-                                                    <rect key="frame" x="8" y="8" width="114.5" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="20" y="40" width="161.5" height="72.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="3jF-xe-cpo" firstAttribute="top" secondItem="bXH-0c-dvW" secondAttribute="top" constant="8" id="Tva-fO-FBe"/>
-                                                <constraint firstItem="3jF-xe-cpo" firstAttribute="leading" secondItem="bXH-0c-dvW" secondAttribute="leading" constant="8" id="ijT-SR-0y1"/>
+                                                <constraint firstAttribute="bottom" secondItem="3jF-xe-cpo" secondAttribute="bottom" constant="40" id="9pW-0o-nPw"/>
+                                                <constraint firstItem="3jF-xe-cpo" firstAttribute="top" secondItem="bXH-0c-dvW" secondAttribute="top" constant="40" id="Tva-fO-FBe"/>
+                                                <constraint firstItem="3jF-xe-cpo" firstAttribute="leading" secondItem="bXH-0c-dvW" secondAttribute="leading" constant="20" id="ijT-SR-0y1"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

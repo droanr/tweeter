@@ -16,8 +16,10 @@ class MenuViewController: UIViewController {
     var hamburgerMenuViewController: HamburgerMenuViewController!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 300
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         tweetsNavigationViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
         //let tweetsViewController = nav.topViewController as! TweetsViewController
