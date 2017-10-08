@@ -12,11 +12,14 @@ class HamburgerMenuViewController: UIViewController {
 
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var overlayView: UIView!
     @IBOutlet weak var leftMargin: NSLayoutConstraint!
+    @IBOutlet weak var overlayLeftMargin: NSLayoutConstraint!
     var originalLeftMargin: CGFloat!
     var menuViewController: MenuViewController! {
         didSet {
             view.layoutIfNeeded()
+            self.overlayView.isHidden = true
             menuViewController.willMove(toParentViewController: self)
             menuView.addSubview(menuViewController.view)
             menuViewController.didMove(toParentViewController: self)
@@ -25,6 +28,7 @@ class HamburgerMenuViewController: UIViewController {
     var contentViewController: UIViewController! {
         didSet (oldContentViewController) {
             view.layoutIfNeeded()
+            self.overlayView.isHidden = true
             if oldContentViewController != nil {
                 oldContentViewController.willMove(toParentViewController: nil)
                 oldContentViewController.view.removeFromSuperview()
@@ -42,7 +46,7 @@ class HamburgerMenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.overlayView.isHidden = true
         // Do any additional setup after loading the view.
     }
     @IBAction func onPanGesture(_ sender: UIPanGestureRecognizer) {
@@ -50,18 +54,23 @@ class HamburgerMenuViewController: UIViewController {
         let velocity = sender.velocity(in: view)
         if sender.state == .began {
             originalLeftMargin = leftMargin.constant
+            self.overlayView.isHidden = false
         } else if sender.state == .changed {
             if velocity.x > 0 {
                 leftMargin.constant = originalLeftMargin + translation.x
+                overlayLeftMargin.constant = leftMargin.constant
             }
         } else if sender.state == .ended {
             UIView.animate(withDuration: 0.3, animations: {
                 if velocity.x > 0 { //opening
                     self.leftMargin.constant = self.view.frame.size.width * 2/3
+                    self.overlayLeftMargin.constant = self.leftMargin.constant
                     let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.onTapContentView(_:)))
-                    self.contentView.addGestureRecognizer(recognizer)
+                    self.overlayView.addGestureRecognizer(recognizer)
                 } else {  //closing
                     self.leftMargin.constant = 0
+                    self.overlayLeftMargin.constant = 0
+                    self.overlayView.isHidden = true
                 }
                 self.view.layoutIfNeeded()
             })
@@ -70,14 +79,11 @@ class HamburgerMenuViewController: UIViewController {
     }
     @IBAction func onTapContentView(_ sender: UITapGestureRecognizer) {
         UIView.animate(withDuration: 0.3, animations: {
+            self.overlayView.isHidden = true
             self.leftMargin.constant = 0
+            self.overlayLeftMargin.constant = 0
             self.view.layoutIfNeeded()
         })
-        contentView.removeGestureRecognizer(sender)
-        /*
-        for g in contentView.gestureRecognizers! {
-            g.isEnabled = false
-        }*/
     }
     
     override func didReceiveMemoryWarning() {

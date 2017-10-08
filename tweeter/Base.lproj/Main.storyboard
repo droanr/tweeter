@@ -83,8 +83,11 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="4UE-eE-eFO" appends="YES" id="4f8-bK-Kst"/>
-                                    <outletCollection property="gestureRecognizers" destination="Afc-dg-MdZ" appends="YES" id="kNM-t1-7iY"/>
                                 </connections>
+                            </view>
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N1P-PR-l3L">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.5718950320621432" green="0.5718950320621432" blue="0.5718950320621432" alpha="0.2422142551369863" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -96,7 +99,11 @@
                             <constraint firstItem="DLm-zJ-3ru" firstAttribute="trailing" secondItem="W4E-Jx-fr5" secondAttribute="trailing" id="e7J-Im-8tq"/>
                             <constraint firstItem="Sta-TC-xkI" firstAttribute="leading" secondItem="W4E-Jx-fr5" secondAttribute="leading" id="eTb-sA-Z5c"/>
                             <constraint firstItem="Sta-TC-xkI" firstAttribute="bottom" secondItem="W4E-Jx-fr5" secondAttribute="bottom" id="k0v-zu-YJA"/>
+                            <constraint firstItem="N1P-PR-l3L" firstAttribute="top" secondItem="ME0-B6-cNm" secondAttribute="top" id="s4U-af-R7d"/>
+                            <constraint firstItem="N1P-PR-l3L" firstAttribute="trailing" secondItem="W4E-Jx-fr5" secondAttribute="trailing" id="sel-DC-0Tx"/>
                             <constraint firstItem="Sta-TC-xkI" firstAttribute="width" secondItem="ME0-B6-cNm" secondAttribute="width" id="uvM-Yn-3A0"/>
+                            <constraint firstItem="N1P-PR-l3L" firstAttribute="bottom" secondItem="W4E-Jx-fr5" secondAttribute="bottom" id="ych-nz-IJw"/>
+                            <constraint firstItem="N1P-PR-l3L" firstAttribute="leading" secondItem="W4E-Jx-fr5" secondAttribute="leading" id="zVk-FV-EZ8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="W4E-Jx-fr5"/>
                     </view>
@@ -104,6 +111,8 @@
                         <outlet property="contentView" destination="Sta-TC-xkI" id="bxK-QW-RzR"/>
                         <outlet property="leftMargin" destination="eTb-sA-Z5c" id="omu-Jk-3ky"/>
                         <outlet property="menuView" destination="DLm-zJ-3ru" id="PJ2-Kp-kJw"/>
+                        <outlet property="overlayLeftMargin" destination="zVk-FV-EZ8" id="Gck-wr-t0F"/>
+                        <outlet property="overlayView" destination="N1P-PR-l3L" id="RdY-FL-mgT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="02f-2o-6rl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -112,13 +121,8 @@
                         <action selector="onPanGesture:" destination="UXL-Bn-9R1" id="fkR-Nf-oe9"/>
                     </connections>
                 </panGestureRecognizer>
-                <tapGestureRecognizer id="Afc-dg-MdZ">
-                    <connections>
-                        <action selector="onTapContentView:" destination="UXL-Bn-9R1" id="UXv-NZ-M2L"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1726" y="-668"/>
+            <point key="canvasLocation" x="1725.5999999999999" y="-668.81559220389806"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -304,6 +308,7 @@
                                                 <constraint firstItem="Yyl-cJ-Xev" firstAttribute="top" secondItem="8QL-5o-qcc" secondAttribute="top" constant="8" id="htW-CF-pZm"/>
                                                 <constraint firstAttribute="bottom" secondItem="xb8-h9-rX9" secondAttribute="bottom" constant="8" id="ic9-JG-nx3"/>
                                                 <constraint firstItem="y5A-f6-MCY" firstAttribute="top" secondItem="QAl-Pn-qBh" secondAttribute="bottom" constant="8" id="oeR-X1-95B"/>
+                                                <constraint firstItem="x4A-Uz-74H" firstAttribute="top" secondItem="fri-gG-0dT" secondAttribute="top" id="piD-UM-jKG"/>
                                                 <constraint firstItem="lR0-IQ-IYg" firstAttribute="centerY" secondItem="VKA-yQ-fZj" secondAttribute="centerY" id="qt4-qz-3AC"/>
                                                 <constraint firstItem="lR0-IQ-IYg" firstAttribute="top" secondItem="QAl-Pn-qBh" secondAttribute="bottom" constant="8" id="rOa-7a-4ws"/>
                                                 <constraint firstAttribute="bottom" secondItem="y5A-f6-MCY" secondAttribute="bottom" constant="8" id="rfT-zs-F5D"/>

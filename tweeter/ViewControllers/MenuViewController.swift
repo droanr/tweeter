@@ -32,7 +32,6 @@ class MenuViewController: UIViewController {
         viewControllers.append(tweetsMentionsNavigationViewController)
         hamburgerMenuViewController.contentViewController = tweetsHomeNavigationViewController
         self.tableView.reloadData()
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
