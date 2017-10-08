@@ -30,6 +30,22 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func userTimeline(maxId: Int?, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        var parameters = [String:Int]()
+        if let maxId = maxId {
+            parameters = ["max_id": maxId]
+        }
+        parameters["user_id"] = User.currentUser?.id
+        get("/1.1/statuses/user_timeline.json", parameters: parameters, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let data = response as! [NSDictionary]
+            let tweets = Tweet.tweetsFromArray(data: data)
+            success(tweets)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            print("Error: \(error.localizedDescription)")
+            failure(error)
+        })
+    }
+    
     func mentionsTimeline(maxId: Int?, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
         var parameters = [String:Int]()
         if let maxId = maxId {
@@ -113,15 +129,9 @@ class TwitterClient: BDBOAuth1SessionManager {
     
     func currentAccount(success: @escaping (User)->(), failure: @escaping (Error)->()) {
         get("/1.1/account/verify_credentials.json", parameters: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
-            //print ("Account: \(response)")
             let userDictionary = response as! NSDictionary
             let user = User(data: userDictionary)
             success(user)
-            /*
-            print("name: \(user.name)")
-            print("screename: \(user.screenname)")
-            print("profile_url: \(user.profileUrl)")
-            print("description: \(user.tagLine)")*/
         }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
             print("Error: \(error.localizedDescription)")
             failure(error)

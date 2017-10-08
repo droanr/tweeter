@@ -12,6 +12,7 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var tweetsHomeNavigationViewController: UINavigationController!
     private var tweetsMentionsNavigationViewController: UINavigationController!
+    private var profileNavigationViewController: UINavigationController!
     var menuOptions = ["Home Timeline", "Mentions", "Profile"]
     var viewControllers: [UIViewController] = []
     var hamburgerMenuViewController: HamburgerMenuViewController!
@@ -30,6 +31,9 @@ class MenuViewController: UIViewController {
         let tweetsMentionsViewController = tweetsMentionsNavigationViewController.topViewController as! TweetsViewController
         tweetsMentionsViewController.endpoint = "mentions"
         viewControllers.append(tweetsMentionsNavigationViewController)
+        profileNavigationViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
+        //let profileViewController = profileNavigationViewController.topViewController as! ProfileViewController
+        viewControllers.append(profileNavigationViewController)
         hamburgerMenuViewController.contentViewController = tweetsHomeNavigationViewController
         self.tableView.reloadData()
     }
