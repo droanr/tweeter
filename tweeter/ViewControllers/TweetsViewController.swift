@@ -16,6 +16,7 @@ class TweetsViewController: UIViewController {
     var inReplyToScreename = ""
     var inReplyToId = -1
     var endpoint: String!
+    var selectedUser: User?
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -91,6 +92,11 @@ class TweetsViewController: UIViewController {
             let indexPath = tableView.indexPath(for: cell)
             detailsController.index = indexPath?.row
             detailsController.delegate = self
+        } else if segue.identifier == "showUserProfile" {
+            //let profileNav = segue.destination as! UINavigationController
+            let profileViewController = segue.destination as! ProfileViewController
+            User.selectedUser = self.selectedUser
+            profileViewController.user = self.selectedUser
         }
     }
 
@@ -148,6 +154,11 @@ extension TweetsViewController: TweetsTableViewCellDelegate {
         self.inReplyToScreename = inReplyToScreename
         self.inReplyToId = inReplyToId
         performSegue(withIdentifier: "composeTweet", sender: self)
+    }
+    
+    func openProfileFromCell(user: User) {
+        self.selectedUser = user
+        performSegue(withIdentifier: "showUserProfile", sender: self)
     }
 }
 

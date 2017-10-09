@@ -58,6 +58,9 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.row == 2 {
+            User.selectedUser = User.currentUser
+        }
         hamburgerMenuViewController.contentViewController = viewControllers[indexPath.row]
     }
 }

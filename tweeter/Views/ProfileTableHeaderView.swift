@@ -22,7 +22,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        user = User.currentUser
+        user = User.selectedUser
         backgroundImage.setImageWith(user.backgroundImageUrl!)
         profileImage.setImageWith(user.profileUrl!)
         profileImage.layer.borderWidth = 1

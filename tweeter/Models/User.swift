@@ -41,6 +41,21 @@ class User: NSObject {
         self.tweetsCount = data["statuses_count"] as? Int
     }
     
+    static var _selectedUser: User?
+    
+    class var selectedUser: User? {
+        get {
+            if _selectedUser == nil {
+                _selectedUser = _currentUser
+            }
+            return _selectedUser
+        }
+        
+        set(user) {
+            _selectedUser = user
+        }
+    }
+    
     static var _currentUser: User?
     
     class var currentUser: User? {

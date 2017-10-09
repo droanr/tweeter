@@ -10,6 +10,7 @@ import UIKit
 
 @objc protocol TweetsTableViewCellDelegate {
     @objc optional func callSegueFromCell(inReplyToScreename: String, inReplyToId: Int)
+    @objc optional func openProfileFromCell(user: User)
 }
 
 class TweetsTableViewCell: UITableViewCell {
@@ -87,6 +88,16 @@ class TweetsTableViewCell: UITableViewCell {
         let retweetRecognizer = UITapGestureRecognizer(target: self, action: #selector(onRetweet(tapGestureRecognizer:)))
         retweetImage.isUserInteractionEnabled = true
         retweetImage.addGestureRecognizer(retweetRecognizer)
+        
+        let userImageProfileRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTapUserImage(tapGestureRecognizer:)))
+        userImage.isUserInteractionEnabled = true
+        userImage.addGestureRecognizer(userImageProfileRecognizer)
+    }
+    
+    @objc func onTapUserImage(tapGestureRecognizer: UITapGestureRecognizer) {
+        if let delegate = self.delegate {
+            delegate.openProfileFromCell!(user: tweet.user!)
+        }
     }
     
     @objc func onReplyTo(tapGestureRecognizer: UITapGestureRecognizer) {

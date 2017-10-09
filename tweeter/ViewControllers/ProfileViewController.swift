@@ -14,6 +14,7 @@ class ProfileViewController: UIViewController {
     var tweets: [Tweet]!
     var inReplyToScreename = ""
     var inReplyToId = -1
+    var user = User.currentUser
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Profile"
@@ -35,7 +36,7 @@ class ProfileViewController: UIViewController {
     }
     
     func fetchTweetsAndUpdateTable() {
-        TwitterClient.sharedInstance?.homeTimeline(maxId: nil, success: {(tweets: [Tweet]) -> () in
+        TwitterClient.sharedInstance?.userTimeline(maxId: nil, user_id: (user?.id)!, success: {(tweets: [Tweet]) -> () in
             self.tweets = tweets
             self.reloadWithAnimation()
         }, failure: { (error: Error) in
@@ -135,7 +136,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "profileHeader") as? ProfileTableHeaderView
-        header?.user = User.currentUser
+        header?.user = user
         return header
     }
     
